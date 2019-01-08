@@ -3,17 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "CommonLib\CommonLib.csproj", "{E2AAA598-3B2A-4F8A-B34E-BBC8DC501C02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FalseApple.Core", "FalseApple.Core\FalseApple.Core.csproj", "{E2AAA598-3B2A-4F8A-B34E-BBC8DC501C02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis", "Redis\Redis.csproj", "{A18CEFFD-8F04-4A92-89B1-318C76718C44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FalseApple.Database", "FalseApple.Database\FalseApple.Database.csproj", "{A18CEFFD-8F04-4A92-89B1-318C76718C44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryConverter", "DictionaryConverter\DictionaryConverter.csproj", "{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FalseApple.Log", "FalseApple.Log\FalseApple.Log.csproj", "{435DB9F9-0E56-4913-A1E4-BA204980C699}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogR", "LogR\LogR.csproj", "{435DB9F9-0E56-4913-A1E4-BA204980C699}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slack", "Slack\Slack.csproj", "{EF679039-CDB3-42EB-B186-B46477ABC117}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpClient", "HttpClient\HttpClient.csproj", "{A762009A-94F4-4060-9E80-D4B57001DB0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FalseApple.Net", "FalseApple.Net\FalseApple.Net.csproj", "{A762009A-94F4-4060-9E80-D4B57001DB0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,26 +65,6 @@ Global
 		{A18CEFFD-8F04-4A92-89B1-318C76718C44}.Silverlight2|Any CPU.Build.0 = Release|Any CPU
 		{A18CEFFD-8F04-4A92-89B1-318C76718C44}.Unity|Any CPU.ActiveCfg = Release|Any CPU
 		{A18CEFFD-8F04-4A92-89B1-318C76718C44}.Unity|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.CoreOnly|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.CoreOnly|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Debug_Ubuntu|Any CPU.Build.0 = Debug|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.iOS|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.iOS|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Net20|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Net20|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Profile|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Profile|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Release_Ubuntu|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Release_Ubuntu|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Silverlight2|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Silverlight2|Any CPU.Build.0 = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Unity|Any CPU.ActiveCfg = Release|Any CPU
-		{74AB3460-7E36-41AB-804D-C1F3C5B21C4D}.Unity|Any CPU.Build.0 = Release|Any CPU
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.CoreOnly|Any CPU.ActiveCfg = Release|Any CPU
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.CoreOnly|Any CPU.Build.0 = Release|Any CPU
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
@@ -109,26 +85,6 @@ Global
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.Silverlight2|Any CPU.Build.0 = Release|Any CPU
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.Unity|Any CPU.ActiveCfg = Release|Any CPU
 		{435DB9F9-0E56-4913-A1E4-BA204980C699}.Unity|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.CoreOnly|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.CoreOnly|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Debug_Ubuntu|Any CPU.Build.0 = Debug|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.iOS|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.iOS|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Net20|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Net20|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Profile|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Profile|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Release_Ubuntu|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Release_Ubuntu|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Silverlight2|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Silverlight2|Any CPU.Build.0 = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Unity|Any CPU.ActiveCfg = Release|Any CPU
-		{EF679039-CDB3-42EB-B186-B46477ABC117}.Unity|Any CPU.Build.0 = Release|Any CPU
 		{A762009A-94F4-4060-9E80-D4B57001DB0B}.CoreOnly|Any CPU.ActiveCfg = Release|Any CPU
 		{A762009A-94F4-4060-9E80-D4B57001DB0B}.CoreOnly|Any CPU.Build.0 = Release|Any CPU
 		{A762009A-94F4-4060-9E80-D4B57001DB0B}.Debug_Ubuntu|Any CPU.ActiveCfg = Debug|Any CPU
