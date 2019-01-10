@@ -19,8 +19,8 @@ namespace StackFalse.Core.Components
         /// <returns>false 表示queue已達上限</returns>
         public bool TryEnqueue(T t, bool major = false)
         {
-            if (!major && base.Count >= _maxCapacity) return false;
-            base.Enqueue(t);
+            if (!major && Count >= _maxCapacity) return false;
+            Enqueue(t);
             return true;
         }
     }

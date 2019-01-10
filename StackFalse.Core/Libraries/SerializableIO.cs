@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Libraries
 {
@@ -10,27 +11,11 @@ namespace StackFalse.Core.Libraries
     public class SerializableIO
     {
         #region Singleton Pattern
-        private static SerializableIO _instance;
-        private static readonly object obj = new object();
-        /// <summary>
-        /// 取得Setting的Instance
-        /// </summary>
-        public static SerializableIO Instance
+        public static SerializableIO Instance { get; }
+
+        static SerializableIO()
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    lock (obj)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = new SerializableIO();
-                        }
-                    }
-                }
-                return _instance;
-            }
+            Instance = new SerializableIO();
         }
         #endregion
 
@@ -74,7 +59,7 @@ namespace StackFalse.Core.Libraries
                         BinaryFormatter myBinaryFormatter = new BinaryFormatter();
                         Settings.Clear();
                         List<Setting> _list = ((SerializableIO) myBinaryFormatter.Deserialize(oFileStream)).Settings;
-                        if (_list != null && _list.Any())
+                        if (_list.IsNonNull() && _list.Any())
                             Settings.AddRange(_list);
                     }
                     oFileStream.Flush();

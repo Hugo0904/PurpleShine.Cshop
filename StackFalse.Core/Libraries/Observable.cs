@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Libraries
 {
@@ -76,7 +77,7 @@ namespace StackFalse.Core.Libraries
             {
                 try
                 {
-                    if (observerNum == null || observerNum(observer.Value))
+                    if (observerNum.IsNull() || observerNum(observer.Value))
                     {
                         if (!message.HasValue)
                             observer.Key.OnError(new MessageUnknownException());

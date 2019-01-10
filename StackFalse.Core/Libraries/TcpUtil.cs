@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Libraries
 {
@@ -135,7 +136,7 @@ namespace StackFalse.Core.Libraries
             catch (Exception ex)
             {
                 Interlocked.Exchange(ref _status, Status.Stopped);
-                if (_tcpListener != null)
+                if (_tcpListener.IsNonNull())
                 {
                     _tcpListener.Stop();
                     _tcpListener = null;
@@ -523,7 +524,7 @@ namespace StackFalse.Core.Libraries
         /// <summary>
         /// 當前Client連線是否正常
         /// </summary>
-        public bool IsConnected => TcpClient != null && TcpClient.Client != null && TcpClient.Client.Connected && Manager != null && Manager.IsReceiving;
+        public bool IsConnected => TcpClient.IsNonNull() && TcpClient.Client.IsNonNull() && TcpClient.Client.Connected && Manager.IsNonNull() && Manager.IsReceiving;
 
         /// <summary>
         /// 附加
@@ -622,7 +623,7 @@ namespace StackFalse.Core.Libraries
         /// <returns>true 代表連線成功</returns>
         public bool ConnectToServer(string ip, int port, bool keepAlive)
         {
-            if (Manager != null && Manager.IsReceiving)
+            if (Manager.IsNonNull() && Manager.IsReceiving)
                 return false;
 
             _ip = ip;
@@ -633,7 +634,7 @@ namespace StackFalse.Core.Libraries
 
         public void Close()
         {
-            if (TcpClient != null)
+            if (TcpClient.IsNonNull())
             {
                 _manualClose = true;
                 TcpClient.Close();
@@ -689,7 +690,7 @@ namespace StackFalse.Core.Libraries
             IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
             TcpConnectionInformation[] tcpConnections = ipProperties.GetActiveTcpConnections().Where(x => x.LocalEndPoint.Equals(socket.LocalEndPoint) && x.RemoteEndPoint.Equals(socket.RemoteEndPoint)).ToArray();
 
-            if (tcpConnections != null && tcpConnections.Length > 0)
+            if (tcpConnections.IsNonNull() && tcpConnections.Length > 0)
             {
                 TcpState stateOfConnection = tcpConnections.First().State;
                 return stateOfConnection == TcpState.Established;

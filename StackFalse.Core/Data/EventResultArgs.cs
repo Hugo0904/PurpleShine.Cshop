@@ -1,4 +1,5 @@
 using System;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Data
 {
@@ -13,7 +14,7 @@ namespace StackFalse.Core.Data
         {
             Success = _suc;
             Data = data;
-            if (err != null)
+            if (err.IsNonNull())
                 Error = new ErrorException(err);
         }
 

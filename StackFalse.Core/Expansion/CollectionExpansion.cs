@@ -49,8 +49,8 @@ namespace StackFalse.Core.Expansion
         /// <returns></returns>
         public static IEnumerable<T> Peek<T>(this IEnumerable<T> source, Action<T> action)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (action == null) throw new ArgumentNullException(nameof(action));
+            if (source.IsNull()) throw new ArgumentNullException(nameof(source));
+            if (action.IsNull()) throw new ArgumentNullException(nameof(action));
 
             return Iterator();
 

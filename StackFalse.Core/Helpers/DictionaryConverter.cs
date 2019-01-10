@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using StackFalse.Core.Expansion;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -34,7 +35,7 @@ namespace StackFalse.Core.Helpers
         private static string GetPropertyName(PropertyInfo propertyInfo)
         {
             var jsonAttribute = propertyInfo.GetCustomAttribute<JsonPropertyAttribute>();
-            if (jsonAttribute != null)
+            if (jsonAttribute.IsNonNull())
                 return jsonAttribute.PropertyName;
             else
                 return propertyInfo.Name;
@@ -43,7 +44,7 @@ namespace StackFalse.Core.Helpers
         private static bool IsAllowDefault(PropertyInfo propertyInfo)
         {
             var jsonAttribute = propertyInfo.GetCustomAttribute<JsonPropertyAttribute>();
-            if (jsonAttribute != null)
+            if (jsonAttribute.IsNonNull())
                 return jsonAttribute.Required == Required.AllowNull;
             else
                 return false;
@@ -51,7 +52,7 @@ namespace StackFalse.Core.Helpers
 
         private static bool IsDefault<T>(T value)
         {
-            if (value == null)
+            if (value.IsNull())
                 return true;
             Type t = value.GetType();
             if (t.IsValueType)
@@ -71,7 +72,7 @@ namespace StackFalse.Core.Helpers
         {
             Dictionary<string, object> response = new Dictionary<string, object>();
 
-            if (data == null)
+            if (data.IsNull())
                 return response;
 
             foreach (var property in data.GetType().GetProperties())
@@ -88,11 +89,11 @@ namespace StackFalse.Core.Helpers
 
         private static object SerializeProperty(object propertyValue)
         {
-            if (propertyValue == null)
+            if (propertyValue.IsNull())
                 return null;
 
             Type propertyType = propertyValue.GetType();
-            if (propertyType.GetInterface("IDictionary") != null)
+            if (propertyType.GetInterface("IDictionary").IsNonNull())
                 return SerializeDictionary(propertyValue as IDictionary);
 
             if (propertyType.IsArray)
@@ -106,7 +107,7 @@ namespace StackFalse.Core.Helpers
 
         private static object SerializeValue(object data)
         {
-            if (data == null)
+            if (data.IsNull())
                 return null;
 
             Type dataType = data.GetType();
@@ -168,7 +169,7 @@ namespace StackFalse.Core.Helpers
 
         public static object Deserialize(Type type, IDictionary dicData)
         {
-            if (dicData == null)
+            if (dicData.IsNull())
                 return null;
 
             object response = Activator.CreateInstance(type);
@@ -190,13 +191,13 @@ namespace StackFalse.Core.Helpers
 
         private static object DeserializeProperty(Type propertyType, object propertyValue)
         {
-            if (propertyValue == null)
+            if (propertyValue.IsNull())
                 return null;
 
             if (propertyType.IsAbstract)
                 return null;
             
-            if (propertyType.GetInterface("IDictionary") != null)
+            if (propertyType.GetInterface("IDictionary").IsNonNull())
                 return DeserializeDictionary(propertyType, propertyValue as IDictionary);
 
             if (propertyType.IsArray)

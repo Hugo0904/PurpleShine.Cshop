@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Components
 {
@@ -11,7 +12,7 @@ namespace StackFalse.Core.Components
         /// <param name="item"></param>
         public void Enqueue(T item)
         {
-            base.Add(item);
+            Add(item);
         }
         /// <summary>
         /// 將List第一個元素取出並刪除
@@ -19,10 +20,10 @@ namespace StackFalse.Core.Components
         /// <returns></returns>
         public T Dequeue()
         {
-            if (base.Count > 0)
+            if (Count > 0)
             {
                 var t = base[0];
-                base.RemoveAt(0);
+                RemoveAt(0);
                 return t;
             }
             else
@@ -34,10 +35,10 @@ namespace StackFalse.Core.Components
         /// <returns></returns>
         public T Dequeue(int index)
         {
-            if (base.Count > index)
+            if (Count > index)
             {
                 var t = base[index];
-                base.RemoveAt(index);
+                RemoveAt(index);
                 return t;
             }
             else
@@ -53,17 +54,21 @@ namespace StackFalse.Core.Components
         }
         public T FindDequeue(Predicate<T> match)
         {
-            var value = base.Find(match);
-            if (value != null)
-                base.Remove(value);
+            var value = Find(match);
+            if (value.IsNonNull())
+                Remove(value);
             return value;
         }
         public List<T> FindAllDequeue(Predicate<T> match)
         {
-            var value = base.FindAll(match);
+            var value = FindAll(match);
             foreach (var single_value in value)
-                if (value != null)
-                    base.Remove(single_value);
+            {
+                if (value.IsNonNull())
+                {
+                    Remove(single_value);
+                }
+            }
             return value;
         }
     }

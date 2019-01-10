@@ -98,9 +98,11 @@
     <Compile Include="Data\NullVisitor.cs" />
     <Compile Include="Data\ProgressResult.cs" />
     <Compile Include="Expansion\CollectionExpansion.cs" />
-    <Compile Include="Expansion\Expansion.cs" />
+    <Compile Include="Expansion\GlobalExpansion.cs" />
     <Compile Include="Data\PlanetAttr.cs" />
+    <Compile Include="Expansion\JsonExpansion.cs" />
     <Compile Include="Expansion\MarkExpansion.cs" />
+    <Compile Include="Expansion\MathExpansion.cs" />
     <Compile Include="Expansion\SystemExpansion.cs" />
     <Compile Include="Helpers\Collection.cs" />
     <Compile Include="Helpers\Delegate.cs" />

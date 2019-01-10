@@ -18,51 +18,25 @@ namespace StackFalse.Core.Expansion
         }
 
         /// <summary>
-        /// null則拋出NullReferenceException例外
+        /// 移除該物件內某個事件所有監聽者
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this"></param>
-        /// <returns></returns>
-        public static T RequeireNonNull<T>(this T @this)
+        /// <param name="this">要移除的物件</param>
+        /// <param name="eventName">事件名稱</param>
+        public static void ClearEvent(this object @this, string eventName)
         {
-            if (@this == null)
-                throw new NullReferenceException();
-            return @this;
-        }
-
-        /// <summary>
-        /// 若例外不為null則拋出
-        /// </summary>
-        /// <param name="this"></param>
-        public static void ThrowIfNonNull(this Exception @this)
-        {
-            if (@this != null)
-                throw @this;
-        }
-
-        /// <summary>
-        /// 引用該實體
-        /// 若實體為Null則拋出NullReferenceException例外
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="this"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static T RequeireNonNull<T>(this T @this, string message)
-        {
-            if (@this == null)
-                throw new NullReferenceException(message);
-            return @this;
-        }
-
-        public static bool IsNull(this object @this)
-        {
-            return @this == null;
-        }
-
-        public static bool IsNonNull(this object @this)
-        {
-            return @this != null;
+            FieldInfo _Field = @this.GetType().GetField(eventName, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
+            if (_Field.IsNonNull())
+            {
+                object _FieldValue = _Field.GetValue(@this);
+                if (_FieldValue.IsNonNull() && _FieldValue is Delegate)
+                {
+                    Delegate _ObjectDelegate = (Delegate)_FieldValue;
+                    foreach (Delegate del in _ObjectDelegate.GetInvocationList())
+                    {
+                        @this.GetType().GetEvent(eventName).RemoveEventHandler(@this, del);
+                    }
+                }
+            }
         }
     }
 }

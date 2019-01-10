@@ -29,7 +29,7 @@ namespace StackFalse.Core.Expansion
         }
         public static HtmlFactory Font(this HtmlFactory f, string color, int size)
         {
-            f.Tag = $"<font {(color == null ? "" : "color='" + color + "'")} {(size == 0 ? "" : "size='" + size + "'")}>{f.Tag}</font>";
+            f.Tag = $"<font {(color.IsNull() ? "" : "color='" + color + "'")} {(size == 0 ? "" : "size='" + size + "'")}>{f.Tag}</font>";
             return f;
         }
     }

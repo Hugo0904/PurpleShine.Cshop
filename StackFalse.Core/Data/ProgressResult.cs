@@ -1,3 +1,5 @@
+using StackFalse.Core.Expansion;
+
 namespace StackFalse.Core.Data
 {
     public class ProgressResult
@@ -5,7 +7,7 @@ namespace StackFalse.Core.Data
         public ProgressResult(string error, params object[] result)
         {
             Result = result;
-            Error = error != null ? new ErrorException(error) : null;
+            Error = error.IsNonNull() ? new ErrorException(error) : null;
         }
 
         /// <summary>

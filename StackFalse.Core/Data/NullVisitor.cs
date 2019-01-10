@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Data
 {
@@ -24,7 +25,7 @@ namespace StackFalse.Core.Data
 
         private bool CheckNull()
         {
-            if (CurrentObject == null)
+            if (CurrentObject.IsNull())
             {
                 IsNull = true;
             }

@@ -18,7 +18,7 @@ namespace StackFalse.Core.Data
 
         //public static implicit operator ErrorException(string reason)
         //{
-        //    return reason != null ? new ErrorInfoException(reason) : null;
+        //    return reason.IsNonNull() ? new ErrorInfoException(reason) : null;
         //}
     }
 }

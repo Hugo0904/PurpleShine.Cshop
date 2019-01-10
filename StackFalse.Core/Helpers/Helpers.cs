@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Reflection;
+using StackFalse.Core.Expansion;
 
 namespace StackFalse.Core.Helpers
 {
@@ -210,7 +211,7 @@ namespace StackFalse.Core.Helpers
         /// <returns></returns>
         public static string Serialize(object value, bool nullingore = true)
         {
-            if (value == null) throw new NullReferenceException(nameof(value));
+            if (value.IsNull()) throw new NullReferenceException(nameof(value));
             if (nullingore)
                 return JsonConvert.SerializeObject(value, new JsonSerializerSettings
                 {
@@ -235,7 +236,7 @@ namespace StackFalse.Core.Helpers
                 {
                     try
                     {
-                        return JToken.Parse(strInput) != null;
+                        return JToken.Parse(strInput).IsNonNull();
                     }
                     catch (JsonReaderException)
                     {
@@ -290,7 +291,7 @@ namespace StackFalse.Core.Helpers
                                     errorKey.Add(paths.Last() + "." + array_querys[j + 1]);
                             }
                         }
-                        else if ((_token = mainToken.SelectToken(array_querys[j])) == null)
+                        else if ((_token = mainToken.SelectToken(array_querys[j])).IsNull())
                             errorKey.Add(paths.Last() + "." + array_querys[j]);
                         else if (!TokenExit(_token, array_querys[j + 1], paths))
                             errorKey.Add(paths.Last() + "." + array_querys[j + 1]);
@@ -310,21 +311,21 @@ namespace StackFalse.Core.Helpers
             if (!errorKey.Any())
                 errorKey = null;
 
-            return errorKey == null;
+            return errorKey.IsNull();
 
             bool TokenExit(JToken outer, string path, List<string> paths = null)
             {
-                if (paths != null)
+                if (paths.IsNonNull())
                 {
                     return outer.All(s =>
                     {
                         paths.Add(s.Path);
-                        return s.SelectToken(path) != null;
+                        return s.SelectToken(path).IsNonNull();
                     });
                 }
                 else
                 {
-                    return outer.SelectToken(path) != null;
+                    return outer.SelectToken(path).IsNonNull();
                 }
             }
         }
@@ -356,7 +357,7 @@ namespace StackFalse.Core.Helpers
             if (!errorList.Any())
                 errorList = null;
 
-            return errorList == null;
+            return errorList.IsNull();
         }
 
         /// <summary>
@@ -386,7 +387,7 @@ namespace StackFalse.Core.Helpers
 
             if (!errorList.Any()) errorList = null;
 
-            return errorList == null;
+            return errorList.IsNull();
         }
 
         /// <summary>
@@ -470,7 +471,7 @@ namespace StackFalse.Core.Helpers
                 return ((IDictionary<string, object>)obj).ContainsKey(name);
             }
 
-            return objType.GetProperty(name) != null;
+            return objType.GetProperty(name).IsNonNull();
         }
     }
 
@@ -488,14 +489,14 @@ namespace StackFalse.Core.Helpers
         /// </summary>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public static bool AnyNull(params object[] objs) => objs.Any(i => i == null);
+        public static bool AnyNull(params object[] objs) => objs.Any(i => i.IsNull());
 
         /// <summary>
         /// 判萬有無任何一個物件不是null
         /// </summary>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public static bool AnyNotNull(params object[] objs) => objs.Any(i => i != null);
+        public static bool AnyNotNull(params object[] objs) => objs.Any(i => i.IsNonNull());
 
         /// <summary>
         /// 產生新的Thread 執行action
@@ -632,7 +633,7 @@ namespace StackFalse.Core.Helpers
         {
             SizeF stringSize = graphics.MeasureString(str, font);
             float f = font.Size * Math.Min(size.Height * 0.96f / stringSize.Height, size.Width * 0.9f / stringSize.Width);
-            f = func == null ? f : func(f);
+            f = func.IsNull() ? f : func(f);
             return f < 0 || float.IsInfinity(f)? 1f : f;
         }
 
