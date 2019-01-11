@@ -5,9 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using PurpleShine.Core.Models;
 using PurpleShine.Core.Expansions;
 using PurpleShine.Core.Helpers;
 using StackExchange.Redis;
+using PurpleShine.Core.Delegates;
+using PurpleShine.Core.Delegates.Args;
 
 namespace PurpleShine.Database.Redis.StackExchange
 {
@@ -58,7 +61,7 @@ namespace PurpleShine.Database.Redis.StackExchange
         /// <summary>
         /// 發生例外時
         /// </summary>
-        public static event CustomEventHandler<Exception> OnException;
+        public static event GenericEventHandler<Exception> OnException;
 
         private readonly ConcurrentDictionary<string, LinkedList<EventListener>> _listeners = new ConcurrentDictionary<string, LinkedList<EventListener>>();
         private readonly ReaderWriterLockSlim rwls = new ReaderWriterLockSlim();
@@ -86,17 +89,17 @@ namespace PurpleShine.Database.Redis.StackExchange
         /// [0] = channel
         /// [1] = message
         /// </summary>
-        public event CustomEventHandler<string[]> OnSubMessage;
+        public event GenericEventHandler<string[]> OnSubMessage;
 
         /// <summary>
         /// 當每次正常心跳時
         /// </summary>
-        public event CustomEventHandler<long> OnHeartBeat;
+        public event GenericEventHandler<long> OnHeartBeat;
 
         /// <summary>
         /// 當心跳發生錯誤時
         /// </summary>
-        public event CustomEventHandler<Exception> OnHeartBeatFail;
+        public event GenericEventHandler<Exception> OnHeartBeatFail;
 
         /// <summary>
         /// 是否啟動心跳中

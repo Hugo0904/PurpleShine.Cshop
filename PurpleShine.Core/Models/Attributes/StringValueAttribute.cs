@@ -1,6 +1,6 @@
 using System;
 
-namespace PurpleShine.Core.Libraries
+namespace PurpleShine.Core.Models.Attributes
 {
     public class StringValueAttribute : Attribute
     {

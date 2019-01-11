@@ -1,11 +1,11 @@
 using System;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Models.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-    public class PlanetAttr : Attribute
+    public class PlanetAttribute : Attribute
     {
-        public PlanetAttr(params object[] value)
+        public PlanetAttribute(params object[] value)
         {
             this.value = value;
         }

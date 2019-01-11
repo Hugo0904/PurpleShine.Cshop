@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using PurpleShine.Core.Delegates.Args;
 
-namespace PurpleShine.Core.Data.Interfaces
+namespace PurpleShine.Core.Models.Interfaces
 {
     /// <summary>
     /// 流程確認介面

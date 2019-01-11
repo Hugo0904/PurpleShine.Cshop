@@ -1,14 +1,15 @@
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Models
 {
-    public class HtmlFactory
+    public class HtmlNode
     {
-        public HtmlFactory(string tag)
+        public HtmlNode(string tag)
         {
             Tag = tag;
         }
+
         public string Tag { get; set; }
 
-        public string get()
+        public string Get()
         {
             return Tag;
         }

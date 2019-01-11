@@ -1,26 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections;
-using System.Reflection;
 using PurpleShine.Core.Expansions;
 
 namespace PurpleShine.Core.Helpers
@@ -31,7 +22,7 @@ namespace PurpleShine.Core.Helpers
         /// 取得IPV4
         /// </summary>
         /// <returns></returns>
-        public static IPAddress Ipv4()
+        public static IPAddress IPV4()
         {
             try
             {
@@ -53,7 +44,7 @@ namespace PurpleShine.Core.Helpers
         /// 取得IPV6
         /// </summary>
         /// <returns></returns>
-        public static IPAddress Ipv6()
+        public static IPAddress IPV6()
         {
             try
             {
@@ -75,9 +66,14 @@ namespace PurpleShine.Core.Helpers
     public class Json
     {
         /// <summary>
-        /// 空的Json字串
+        /// 空的Json Object
         /// </summary>
-        public const string EmptyJson = "{}";
+        public const string EmptyOjbect = "{}";
+
+        /// <summary>
+        /// 空的Json Array
+        /// </summary>
+        public const string EmptyArray = "[]";
 
         /// <summary>
         /// 迭代JPropertys
@@ -403,249 +399,30 @@ namespace PurpleShine.Core.Helpers
         }
     }
 
-    public static class Safe
-    {
-        /// <summary>
-        /// 將字串作MD5加密
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="lower"></param>
-        /// <returns></returns>
-        public static string MD5(string content, bool lower = true)
-        {
-            using (MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] b = md5.ComputeHash(Encoding.UTF8.GetBytes(content));
-                string result = BitConverter.ToString(b).Replace("-", string.Empty);
-                return lower ? result.ToLower() : result;
-            }
-        }
-
-        /// <summary>
-        /// SHA256加密
-        /// </summary>
-        /// <param name="str">待加密的字串</param>
-        /// <returns>加密後的字串(十六進位 兩位數)</returns>
-        public static string SHA256(string str)
-        {
-            SHA256 sha256 = new SHA256Managed();
-            byte[] sha256Bytes = Encoding.Default.GetBytes(str);
-            byte[] cryString = sha256.ComputeHash(sha256Bytes);
-            string sha256Str = string.Empty;
-            for (int i = 0; i < cryString.Length; i++)
-            {
-                sha256Str += cryString[i].ToString("X2");
-            }
-            return sha256Str;
-        }
-
-        public static bool IsPositiveIntegerr(string strNumber)
-        {
-            //看要用哪種規則判斷，自行修改strValue即可
-            //string strValue = @"^\d+[.]?\d*$";//非負數字 
-            //strValue = @"^\d+(\.)?\d*$";//數字
-            //strValue = @"^\d+$";//非負整數
-            //strValue = @"^-?\d+$";//整數
-            //strValue = @"^-[0-9]*[1-9][0-9]*$";//負整數
-            string strValue = @"^[0-9]*[1-9][0-9]*$";//正整數
-            //strValue = @"^((-\d+)|(0+))$";//非正整數                    
-            Regex r = new Regex(strValue);
-            return r.IsMatch(strNumber);
-        }
-    }
-
-    public static class Dynamic
-    {
-        /// <summary>
-        /// 檢查元素是否存在於該dynamic
-        /// </summary>
-        /// <param name="obj">物件</param>
-        /// <param name="name">元素名稱</param>
-        /// <returns></returns>
-        public static bool HasProperty(dynamic obj, string name)
-        {
-            Type objType = obj.GetType();
-
-            if (objType == typeof(ExpandoObject))
-            {
-                return ((IDictionary<string, object>)obj).ContainsKey(name);
-            }
-
-            return objType.GetProperty(name).IsNonNull();
-        }
-    }
-
     public class Tools
     {
-        /// <summary>
-        /// 判斷有無任何一個物件是null
-        /// </summary>
-        /// <param name="objs"></param>
-        /// <returns></returns>
-        public static bool StringAnyEmpty(params string[] objs) => objs.Any(i => string.IsNullOrEmpty(i));
-
-        /// <summary>
-        /// 判斷有無任何一個物件是null
-        /// </summary>
-        /// <param name="objs"></param>
-        /// <returns></returns>
-        public static bool AnyNull(params object[] objs) => objs.Any(i => i.IsNull());
-
-        /// <summary>
-        /// 判萬有無任何一個物件不是null
-        /// </summary>
-        /// <param name="objs"></param>
-        /// <returns></returns>
-        public static bool AnyNotNull(params object[] objs) => objs.Any(i => i.IsNonNull());
-
-        /// <summary>
-        /// 產生新的Thread 執行action
-        /// </summary>
-        /// <param name="e"></param>
-        public static void Excute(ThreadStart e)
-        {
-            Thread thread = new Thread(e) { IsBackground = true };
-            thread.Start();
-        }
-
-        /// <summary>
-        /// 匿名類轉換
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="anonymous"></param>
-        /// <param name="anonymousType"></param>
-        /// <returns></returns>
-        public static T CastAnonymous<T>(object anonymous, T anonymousType)
-        {
-            return (T) anonymous;
-        }
-
         /// <summary>
         /// 取得本專案路徑
         /// </summary>
         /// <returns></returns>
         public static string GetDirectoryPath() => Path.GetDirectoryName(Path.GetDirectoryName(Directory.GetCurrentDirectory()));
 
+    }
+
+    public static class Actions
+    {
         /// <summary>
-        /// 將text繪製成圖片
+        /// 重複做某件事直到失敗至上限為止
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="font"></param>
-        /// <param name="textColor"></param>
-        /// <param name="backColor"></param>
-        /// <returns></returns>
-        public static Image DrawTextPicture(string text, Font font, Color textColor, Color backColor)
+        /// <param name="retry">重試次數</param>
+        /// <param name="func">動作</param>
+        public static void Loop(int retry, Func<bool> func)
         {
-            using (Image img = new Bitmap(1, 1))
-            using (Graphics drawing = Graphics.FromImage(img))
+            bool complete = false;
+            for (int i = 0; i < retry && complete == false; i++)
             {
-                SizeF textSize = drawing.MeasureString(text, font);
-                Image img2 = new Bitmap((int)textSize.Width, (int)textSize.Height);
-                using (Graphics drawing2 = Graphics.FromImage(img2))
-                {
-                    drawing2.SmoothingMode = SmoothingMode.AntiAlias;
-                    drawing2.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    drawing2.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    drawing2.Clear(backColor);
-                    using (Brush textBrush = new SolidBrush(textColor))
-                    {
-                        drawing2.DrawString(text, font, textBrush, 0, 0);
-                        drawing2.Flush();
-                        return img2;
-                    }
-                }
+                complete = func.Invoke();
             }
-        }
-
-        /// <summary>
-        /// 將text繪製成圖片(圓形)
-        /// </summary>
-        /// <param name="text"></param>
-        /// <param name="font"></param>
-        /// <param name="textColor"></param>
-        /// <param name="backColor"></param>
-        /// <returns></returns>
-        public static Image DrawTextRectanglePicture(string text, Font font, Color textColor, Color backColor)
-        {
-            using (Image img = new Bitmap(1, 1))
-            using (Graphics drawing = Graphics.FromImage(img))
-            {
-                SizeF textSize = drawing.MeasureString(text, font);
-                Image img2 = new Bitmap((int)textSize.Width, (int)textSize.Height);
-                using (Graphics drawing2 = Graphics.FromImage(img2))
-                using (GraphicsPath path = new GraphicsPath())
-                {
-                    drawing2.SmoothingMode = SmoothingMode.AntiAlias;
-                    drawing2.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    drawing2.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    path.AddEllipse(0, 0, img2.Width, img2.Height);
-                    drawing2.SetClip(path);
-                    using (Brush textBrush = new SolidBrush(textColor))
-                    using (Brush br = new SolidBrush(backColor))
-                    {
-                        drawing2.FillEllipse(br, drawing2.ClipBounds);
-                        drawing2.DrawString(text, font, textBrush, 0, 0);
-                    }
-                    drawing2.Flush();
-                    return img2;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 將字劃到圖形內
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="text"></param>
-        /// <param name="font"></param>
-        /// <param name="textColor"></param>
-        /// <param name="site"></param>
-        public static void DrawTextInPicture(Image image, string text, Font font, Color textColor, ContentAlignment site)
-        {
-            using (Graphics drawing = Graphics.FromImage(image))
-            {
-                drawing.SmoothingMode = SmoothingMode.AntiAlias;
-                drawing.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                drawing.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                using (Brush textBrush = new SolidBrush(textColor))
-                using (StringFormat sf = new StringFormat())
-                {
-                    string siteName = site.ToString();
-                    sf.LineAlignment = siteName.StartsWith("Top") ? StringAlignment.Near : siteName.StartsWith("Middle") ? StringAlignment.Center : StringAlignment.Far;
-                    sf.Alignment = siteName.EndsWith("Left") ? StringAlignment.Near : siteName.EndsWith("Center") ? StringAlignment.Center : StringAlignment.Far;
-                    Rectangle rectf = new Rectangle(0, 0, image.Width, image.Height);
-                    drawing.DrawString(text, font, textBrush, rectf, sf);
-                }
-                drawing.Flush();
-            }
-        }
-
-        /// <summary>
-        /// 字體大小自動變更
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="size"></param>
-        /// <param name="font"></param>
-        /// <param name="str"></param>
-        /// <param name="func"></param>
-        /// <returns></returns>
-        public static float NewFontSize(Graphics graphics, Size size, Font font, string str, Func<float, float> func = null)
-        {
-            SizeF stringSize = graphics.MeasureString(str, font);
-            float f = font.Size * Math.Min(size.Height * 0.96f / stringSize.Height, size.Width * 0.9f / stringSize.Width);
-            f = func.IsNull() ? f : func(f);
-            return f < 0 || float.IsInfinity(f)? 1f : f;
-        }
-
-        /// <summary>
-        /// 異步處理上下文
-        /// </summary>
-        /// <param name="actions"></param>
-        public static void ContextAsync(Action<IProgress<Action>> actions)
-        {
-            Progress<Action> progress = new Progress<Action>();
-            progress.ProgressChanged += (object sender, Action e) => e.Invoke();
-            Task.Run(() => actions.Invoke(progress));
         }
 
         /// <summary>
@@ -653,12 +430,12 @@ namespace PurpleShine.Core.Helpers
         /// </summary>
         /// <param name="retry">重試次數</param>
         /// <param name="func">動作</param>
-        public static void ActionLoop(int retry, Func<bool> func)
+        public static async Task LoopAsync(int retry, Func<Task<bool>> func)
         {
             bool complete = false;
             for (int i = 0; i < retry && complete == false; i++)
             {
-                complete = func.Invoke();
+                complete = await func.Invoke();
             }
         }
     }

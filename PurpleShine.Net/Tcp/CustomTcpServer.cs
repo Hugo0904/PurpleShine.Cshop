@@ -9,25 +9,25 @@ using System.Threading;
 using System.Threading.Tasks;
 using PurpleShine.Core.Expansions;
 
-namespace PurpleShine.Core.Libraries
+namespace PurpleShine.Net.Tcp
 {
     /// <summary>
     /// TCP Server
     /// </summary>
-    public sealed class CustomTcpServer
+    public sealed class TcpServer
     {
         private readonly ConcurrentDictionary<CommunicatetManager, string> _clients = new ConcurrentDictionary<CommunicatetManager, string>();
         private readonly CommunicatetFactory _factory;
         private TcpListener _tcpListener;
         private volatile int _status;
 
-        public CustomTcpServer()
+        public TcpServer()
         : this (null)
         {
             //
         }
 
-        public CustomTcpServer(CommunicatetFactory factory)
+        public TcpServer(CommunicatetFactory factory)
         {
             _factory = factory ?? CommunicatetFactory.Default;
         }

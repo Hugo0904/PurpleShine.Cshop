@@ -1,7 +1,7 @@
 
 using System.Threading.Tasks;
 
-namespace PurpleShine.Core.Data.Interfaces
+namespace PurpleShine.Core.Models.Interfaces
 {
     /// <summary>
     /// 初始化界面

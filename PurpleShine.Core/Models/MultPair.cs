@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Models
 {
     public struct MultPair<TSource> : IEnumerable<TSource>
     {

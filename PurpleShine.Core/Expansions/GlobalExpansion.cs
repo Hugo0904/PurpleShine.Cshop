@@ -5,9 +5,8 @@ using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using PurpleShine.Core.Data;
-using PurpleShine.Core.Libraries;
-
+using PurpleShine.Core.Models;
+using PurpleShine.Core.Models.Attributes;
 
 namespace PurpleShine.Core.Expansions
 {
@@ -52,7 +51,7 @@ namespace PurpleShine.Core.Expansions
         public static dynamic GetValue(this Enum @this, int index = -1)
         {
             FieldInfo fieldInfo = @this.GetType().GetField(@this.ToString());
-            PlanetAttr[] atts = (PlanetAttr[])fieldInfo.GetCustomAttributes(typeof(PlanetAttr), false);
+            PlanetAttribute[] atts = (PlanetAttribute[])fieldInfo.GetCustomAttributes(typeof(PlanetAttribute), false);
             dynamic dync = atts.Length > 0 ? atts[0].value : null;
             if (dync.IsNonNull() && index >= 0)
             {
@@ -145,40 +144,6 @@ namespace PurpleShine.Core.Expansions
         }
 
         /// <summary>
-        /// 對字串型態的數字做加減
-        /// 加減並回傳成字串
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public static string ComputeSNumber(this string @this, Func<long, long> compute)
-        {
-            if (long.TryParse(@this, out long v))
-            {
-                return compute(v).ToString();
-            }
-            throw new ArgumentException($"{@this} not number");
-        }
-
-        /// <summary>
-        /// 判斷該陣列中有無任何項目符合該字串
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static bool EqualsAny(this string @this, params string[] args)
-        {
-            if (@this.IsNonNull())
-            {
-                foreach (var item in args)
-                {
-                    if (item.Equals(@this)) return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
         /// 確認所有條件是有任一為null
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -218,6 +183,53 @@ namespace PurpleShine.Core.Expansions
             }
 
             return result;
+        }
+    }
+
+    public static class StringExpansion
+    {
+        public static string UcFirst(this string @this)
+        {
+            switch (@this)
+            {
+                case null: throw new ArgumentNullException(nameof(@this));
+                case "": throw new ArgumentException($"{nameof(@this)} cannot be empty", nameof(@this));
+                default: return @this.First().ToString().ToUpper() + @this.Substring(1);
+            }
+        }
+
+        /// <summary>
+        /// 對字串型態的數字做加減
+        /// 加減並回傳成字串
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static string ComputeSNumber(this string @this, Func<long, long> compute)
+        {
+            if (long.TryParse(@this, out long v))
+            {
+                return compute(v).ToString();
+            }
+            throw new ArgumentException($"{@this} not number");
+        }
+
+        /// <summary>
+        /// 判斷該陣列中有無任何項目符合該字串
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static bool EqualsAny(this string @this, params string[] args)
+        {
+            if (@this.IsNonNull())
+            {
+                foreach (var item in args)
+                {
+                    if (item.Equals(@this)) return true;
+                }
+            }
+            return false;
         }
     }
 

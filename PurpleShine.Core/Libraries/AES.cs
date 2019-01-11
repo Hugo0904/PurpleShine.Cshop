@@ -5,7 +5,6 @@ using System.Text;
 
 namespace PurpleShine.Core.Libraries
 {
-
     public class GamingAes
     {
         private bool Enable { get; set; }
@@ -17,11 +16,12 @@ namespace PurpleShine.Core.Libraries
         {
             Enable = EncryptEnable;
         }
+
         #region var
-        private int KeySize = 256;
-        private int BlockSize = 256;
-        private int Iterations = 1;
-        public string saltText = "i know what i am doing";
+        private readonly int KeySize = 256;
+        private readonly int BlockSize = 256;
+        private readonly int Iterations = 1;
+        public string SaltText = "i know what i am doing";
         //saltBytes 依照 saltText 做設定
         #endregion
 
@@ -32,7 +32,7 @@ namespace PurpleShine.Core.Libraries
             byte[] encryptedBytes = null;
             // Set your salt here, change it to meet your flavor:
             // The salt bytes must be at least 8 bytes.
-            byte[] saltBytes = new byte[Encoding.Default.GetBytes(saltText).Length];
+            byte[] saltBytes = new byte[Encoding.Default.GetBytes(SaltText).Length];
             using (MemoryStream ms = new MemoryStream())
             {
                 using (RijndaelManaged AES = new RijndaelManaged())
@@ -74,7 +74,7 @@ namespace PurpleShine.Core.Libraries
 
             // Set your salt here, change it to meet your flavor:
             // The salt bytes must be at least 8 bytes.
-            byte[] saltBytes = new byte[Encoding.Default.GetBytes(saltText).Length];
+            byte[] saltBytes = new byte[Encoding.Default.GetBytes(SaltText).Length];
 
             using (MemoryStream ms = new MemoryStream())
             {

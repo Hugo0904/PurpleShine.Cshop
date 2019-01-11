@@ -1,9 +1,7 @@
-using System;
+﻿using System;
 
-namespace PurpleShine.Core.Helpers
+namespace PurpleShine.Core.Delegates.Args
 {
-    public delegate void CustomEventHandler<T>(object sender, ValueArgs<T> e);
-
     public class ValueArgs<T> : EventArgs
     {
         public T Value { get; private set; }
@@ -18,7 +16,7 @@ namespace PurpleShine.Core.Helpers
             return new ValueArgs<T>(value);
         }
 
-        public static implicit operator T (ValueArgs<T> v)
+        public static implicit operator T(ValueArgs<T> v)
         {
             return v.Value;
         }

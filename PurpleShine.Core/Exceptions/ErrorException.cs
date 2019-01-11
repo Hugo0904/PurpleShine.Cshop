@@ -1,6 +1,6 @@
 using System;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Exceptions
 {
     [Serializable]
     public class ErrorException : Exception
@@ -15,10 +15,5 @@ namespace PurpleShine.Core.Data
         {
             return e.Message;
         }
-
-        //public static implicit operator ErrorException(string reason)
-        //{
-        //    return reason.IsNonNull() ? new ErrorInfoException(reason) : null;
-        //}
     }
 }

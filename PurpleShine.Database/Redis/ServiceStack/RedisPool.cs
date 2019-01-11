@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using ServiceStack.Redis;
 using PurpleShine.Core.Helpers;
 using PurpleShine.Trace.Logging;
+using PurpleShine.Core.Models;
+using PurpleShine.Core.Delegates;
+using PurpleShine.Core.Delegates.Args;
 
 namespace PurpleShine.Database.Redis.ServiceStack
 {
@@ -48,8 +51,8 @@ namespace PurpleShine.Database.Redis.ServiceStack
 
         private readonly ConcurrentDictionary<string, HashSet<EventListener>> EventListeners;
         private readonly ConcurrentDictionary<ChannelListener, long> ChannelListeners;
-        public event CustomEventHandler<long> OnHeartBeat;
-        public event CustomEventHandler<Exception> OnHeartBeatFail;
+        public event GenericEventHandler<long> OnHeartBeat;
+        public event GenericEventHandler<Exception> OnHeartBeatFail;
         private RedisClient enginRedisClient;
         private volatile bool close;
         private int heartbeat_delay;

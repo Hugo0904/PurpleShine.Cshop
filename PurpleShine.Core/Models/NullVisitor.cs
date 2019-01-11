@@ -2,11 +2,12 @@ using System.Linq.Expressions;
 using System.Reflection;
 using PurpleShine.Core.Expansions;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Models
 {
     public class NullVisitor : ExpressionVisitor
     {
         public bool IsNull { get; private set; }
+
         public object CurrentObject { get; set; }
 
         protected override Expression VisitMember(MemberExpression node)

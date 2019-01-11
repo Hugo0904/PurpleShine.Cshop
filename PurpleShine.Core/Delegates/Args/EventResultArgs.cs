@@ -1,7 +1,8 @@
 using System;
+using PurpleShine.Core.Exceptions;
 using PurpleShine.Core.Expansions;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Delegates.Args
 {
     /// <summary>
     /// 成功失敗結果事件組

@@ -1,11 +1,11 @@
-using Newtonsoft.Json;
-using PurpleShine.Core.Expansions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
+using PurpleShine.Core.Expansions;
 
 namespace PurpleShine.Core.Helpers
 {
@@ -60,6 +60,7 @@ namespace PurpleShine.Core.Helpers
             else
                 return false;
         }
+
         #region Serialize
         private static readonly ConcurrentDictionary<Type, Func<object, object>> CustomSerializer = new ConcurrentDictionary<Type, Func<object, object>>();
 
@@ -141,6 +142,7 @@ namespace PurpleShine.Core.Helpers
 
         private static object DefaultSerializer(object value) => value;
         #endregion
+
         #region Deserialize
         private static readonly ConcurrentDictionary<Type, Func<object, object>> CustomDeserializer = new ConcurrentDictionary<Type, Func<object, object>>();
 
@@ -148,6 +150,7 @@ namespace PurpleShine.Core.Helpers
         {
             CustomDeserializer[type] = deserializer;
         }
+
         public static T Deserialize<T>(IDictionary dicData)
         {
             T response = Activator.CreateInstance<T>();

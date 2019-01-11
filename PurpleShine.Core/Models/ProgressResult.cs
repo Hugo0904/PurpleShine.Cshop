@@ -1,6 +1,7 @@
+using PurpleShine.Core.Exceptions;
 using PurpleShine.Core.Expansions;
 
-namespace PurpleShine.Core.Data
+namespace PurpleShine.Core.Models
 {
     public class ProgressResult
     {
