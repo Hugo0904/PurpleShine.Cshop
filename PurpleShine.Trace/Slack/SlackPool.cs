@@ -7,22 +7,22 @@ namespace PurpleShine.Trace.Slack
     /// <summary>
     /// Slack群組管理
     /// </summary>
-    public class SlackUtil
+    public class SlackPool
     {
         #region Singleton Pattern
-        private static SlackUtil _instance;
+        private static SlackPool _instance;
 
-        static SlackUtil()
+        static SlackPool()
         {
-            _instance = new SlackUtil();
+            _instance = new SlackPool();
         }
 
-        public static SlackUtil Manager
+        public static SlackPool Manager
         {
             get { return _instance; }
         }
 
-        private SlackUtil()
+        private SlackPool()
         {
             //
         }
@@ -42,7 +42,7 @@ namespace PurpleShine.Trace.Slack
         /// <param name="channel"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public SlackUtil Emit(string identify, string channel, string message)
+        public SlackPool Emit(string identify, string channel, string message)
         {
             return Emit(identify, new SlackMessage
             {
@@ -59,7 +59,7 @@ namespace PurpleShine.Trace.Slack
         /// <param name="identify"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public SlackUtil Emit(string identify, SlackMessage message)
+        public SlackPool Emit(string identify, SlackMessage message)
         {
             return Emit(identify, message, null);
         }
@@ -71,7 +71,7 @@ namespace PurpleShine.Trace.Slack
         /// <param name="message"></param>
         /// <param name="attachment"></param>
         /// <returns></returns>
-        public SlackUtil Emit(string identify, SlackMessage message, SlackAttachment attachment)
+        public SlackPool Emit(string identify, SlackMessage message, SlackAttachment attachment)
         {
             if (_slacks.TryGetValue(identify, out SlackClient client))
             {

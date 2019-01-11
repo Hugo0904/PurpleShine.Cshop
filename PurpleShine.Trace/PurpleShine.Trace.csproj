@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Logging\FLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Slack\SlackUtil.cs" />
+    <Compile Include="Slack\SlackPool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

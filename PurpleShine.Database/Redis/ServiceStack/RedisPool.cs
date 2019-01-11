@@ -7,17 +7,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using ServiceStack.Redis;
 using PurpleShine.Core.Helpers;
-using PurpleShine.Database.Redis.Expansion;
 using PurpleShine.Trace.Logging;
 
-namespace PurpleShine.Database.Redis
+namespace PurpleShine.Database.Redis.ServiceStack
 {
-    public class RedisPoolManager : RedisNativeClient
+    public class RedisPool : RedisNativeClient
     {
         #region Singleton Pattern
-        private static RedisPoolManager _instance;
+        private static RedisPool _instance;
         private static readonly object _lock = new object();
-        public static RedisPoolManager Instance
+        public static RedisPool Instance
         {
             get
             {
@@ -27,7 +26,7 @@ namespace PurpleShine.Database.Redis
                     {
                         if (_instance == null)
                         {
-                            _instance = new RedisPoolManager();
+                            _instance = new RedisPool();
                         }
                     }
                 }
@@ -35,7 +34,7 @@ namespace PurpleShine.Database.Redis
             }
         }
 
-        private RedisPoolManager()
+        private RedisPool()
         {
             // 設置timeout
             RedisConfig.DefaultConnectTimeout = 3000;
@@ -484,7 +483,7 @@ namespace PurpleShine.Database.Redis
         /// </summary>
         /// <param name="readWriteHost"></param>
         /// <returns></returns>
-        public RedisPoolManager BuildConnect(string readWriteHost)
+        public RedisPool BuildConnect(string readWriteHost)
         {
             return BuildConnect(readWriteHost, readWriteHost);
         }
@@ -495,7 +494,7 @@ namespace PurpleShine.Database.Redis
         /// <param name="writeHost"></param>
         /// <param name="readHost"></param>
         /// <returns></returns>
-        public RedisPoolManager BuildConnect(string writeHost, string readHost)
+        public RedisPool BuildConnect(string writeHost, string readHost)
         {
             return BuildConnect(new string[] { writeHost }, new string[] { readHost }, null);
         }
@@ -509,7 +508,7 @@ namespace PurpleShine.Database.Redis
         /// <param name="poolSizeMultiplier"></param>
         /// <param name="poolTimeOutSeconds"></param>
         /// <returns></returns>
-        public RedisPoolManager BuildConnect(string[] writeHost, string[] readHost, RedisClientManagerConfig config, int poolSizeMultiplier = 100, int poolTimeOutSeconds = 1)
+        public RedisPool BuildConnect(string[] writeHost, string[] readHost, RedisClientManagerConfig config, int poolSizeMultiplier = 100, int poolTimeOutSeconds = 1)
         {
             Manager = new PooledRedisClientManager(writeHost, readHost, config, null, poolSizeMultiplier, poolTimeOutSeconds);
             close = false;

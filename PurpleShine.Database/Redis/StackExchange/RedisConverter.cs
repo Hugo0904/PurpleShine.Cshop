@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using StackExchange.Redis;
 
-namespace PurpleShine.Database.Serialization
+namespace PurpleShine.Database.Redis.StackExchange
 {
     public class RedisConverter
     {

@@ -9,7 +9,7 @@ using PurpleShine.Core.Expansions;
 using PurpleShine.Core.Helpers;
 using StackExchange.Redis;
 
-namespace PurpleShine.Database.Redis
+namespace PurpleShine.Database.Redis.StackExchange
 {
     public class AddressItem
     {
@@ -34,22 +34,22 @@ namespace PurpleShine.Database.Redis
     /// <summary>
     /// Redis Manager
     /// </summary>
-    public class RedisUtil : IDisposable
+    public class RedisPool : IDisposable
     {
         #region Singleton Pattern
-        private static RedisUtil _instance;
+        private static RedisPool _instance;
 
-        static RedisUtil()
+        static RedisPool()
         {
-            _instance = new RedisUtil();
+            _instance = new RedisPool();
         }
 
-        private RedisUtil()
+        private RedisPool()
         {
             //
         }
 
-        public static RedisUtil Multiplexer
+        public static RedisPool Multiplexer
         {
             get { return _instance; }
         }
@@ -70,7 +70,7 @@ namespace PurpleShine.Database.Redis
 
         public bool IsDisposed { get; private set; }
 
-        ~RedisUtil()
+        ~RedisPool()
         {
             Dispose(false);
         }
@@ -283,7 +283,7 @@ namespace PurpleShine.Database.Redis
         /// </summary>
         /// <param name="channel">監聽的頻道</param>
         /// <returns></returns>
-        public RedisUtil CreateChannelListener(string channel)
+        public RedisPool CreateChannelListener(string channel)
         {
             if (Manager != null && Manager.IsConnected && _listenChannels.Add(channel))
             {
@@ -339,7 +339,7 @@ namespace PurpleShine.Database.Redis
         /// 關閉心跳
         /// </summary>
         /// <returns></returns>
-        public RedisUtil CloseHeartbeat()
+        public RedisPool CloseHeartbeat()
         {
             Interlocked.Exchange(ref _heartBeatState, Status.Stopped);
             return this;

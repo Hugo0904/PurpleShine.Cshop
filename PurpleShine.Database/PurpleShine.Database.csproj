@@ -96,11 +96,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Redis\RedisPoolManager.cs" />
-    <Compile Include="Redis\Expansion\RedisExpansion.cs" />
+    <Compile Include="Redis\ServiceStack\RedisPool.cs" />
+    <Compile Include="Redis\ServiceStack\RedisExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Redis\RedisUtil.cs" />
-    <Compile Include="Serialization\RedisConverter.cs" />
+    <Compile Include="Redis\StackExchange\RedisExpansion.cs" />
+    <Compile Include="Redis\StackExchange\RedisPool.cs" />
+    <Compile Include="Redis\StackExchange\RedisConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
