@@ -1,10 +1,33 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.Windows.Forms;
 using PurpleShine.Core.Expansions;
 
 namespace PurpleShine.Core.Helpers
 {
+    public static class Language
+    {
+        public static void Apply(Form form, string language)
+        {
+            var resManager = new ComponentResourceManager(form.GetType());
+            ApplyResources(resManager, form, new CultureInfo(language));
+            resManager.ReleaseAllResources();
+            GC.Collect();
+        }
+
+        public static void ApplyResources(ComponentResourceManager resManager, Control parent, CultureInfo culture)
+        {
+            resManager.ApplyResources(parent, parent.Name, culture);
+            foreach (Control ctl in parent.Controls)
+            {
+                ApplyResources(resManager, ctl, culture);
+            }
+        }
+    }
+
     public static class DrawingUtil
     {
         /// <summary>

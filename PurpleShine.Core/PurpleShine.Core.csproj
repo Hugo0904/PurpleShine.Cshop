@@ -91,6 +91,7 @@
     <Compile Include="Delegates\Args\ValueArgs.cs" />
     <Compile Include="Delegates\Args\EventResultArgs.cs" />
     <Compile Include="Exceptions\ErrorException.cs" />
+    <Compile Include="Models\Attributes\ConcreteClassAttribute.cs" />
     <Compile Include="Models\MultPair.cs" />
     <Compile Include="Models\HtmlNode.cs" />
     <Compile Include="Models\Interfaces\ILoadHandler.cs" />
