@@ -70,12 +70,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -91,6 +92,7 @@
     <Compile Include="Delegates\Args\ValueArgs.cs" />
     <Compile Include="Delegates\Args\EventResultArgs.cs" />
     <Compile Include="Exceptions\ErrorException.cs" />
+    <Compile Include="Helpers\SystemUtil.cs" />
     <Compile Include="Models\Attributes\ConcreteClassAttribute.cs" />
     <Compile Include="Models\MultPair.cs" />
     <Compile Include="Models\HtmlNode.cs" />

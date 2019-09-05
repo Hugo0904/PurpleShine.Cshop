@@ -119,7 +119,7 @@ namespace PurpleShine.Core.Expansions
         /// <returns></returns>
         public static bool IsNull(this object @this)
         {
-            return @this.IsNull();
+            return @this == null;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace PurpleShine.Core.Expansions
         /// <returns></returns>
         public static bool IsNonNull(this object @this)
         {
-            return @this.IsNonNull();
+            return @this != null;
         }
 
         /// <summary>
