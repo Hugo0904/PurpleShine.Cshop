@@ -93,6 +93,7 @@
     <Compile Include="Delegates\Args\EventResultArgs.cs" />
     <Compile Include="Exceptions\ErrorException.cs" />
     <Compile Include="Helpers\SystemUtil.cs" />
+    <Compile Include="Mappings\KeyModifiers.cs" />
     <Compile Include="Models\Attributes\ConcreteClassAttribute.cs" />
     <Compile Include="Models\MultPair.cs" />
     <Compile Include="Models\HtmlNode.cs" />
