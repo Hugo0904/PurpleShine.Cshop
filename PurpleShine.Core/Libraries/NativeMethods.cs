@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Windows.Forms;
+using PurpleShine.Core.Mappings;
 using static PurpleShine.Core.Libraries.Mouse;
 
 namespace PurpleShine.Core.Libraries
@@ -45,29 +47,35 @@ namespace PurpleShine.Core.Libraries
         public static extern IntPtr GetCurrentProcess();
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetForegroundWindow(this object o);
+        public static extern IntPtr GetForegroundWindow(this object o);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr GetTopWindow(IntPtr hWnd);
+        public static extern IntPtr GetTopWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool IsWindowVisible(IntPtr hWnd);
+        public static extern bool IsWindowVisible(IntPtr hWnd);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, EntryPoint = "GetWindow", SetLastError = true)]
-        internal static extern IntPtr GetNextWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.U4)] int wFlag);
+        public static extern IntPtr GetNextWindow(IntPtr hwnd, [MarshalAs(UnmanagedType.U4)] int wFlag);
 
         [DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
-        internal static extern int GetSystemMetrics(int which);
+        public static extern int GetSystemMetrics(int which);
 
         [DllImport("user32.dll")]
-        internal static extern void SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int X, int Y, int width, int height, uint flags);
+        public static extern void SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int X, int Y, int width, int height, uint flags);
 
         [DllImport("dwmapi.dll", PreserveSig = false)]
-        internal static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+        public static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
         [DllImport("dwmapi.dll", PreserveSig = false)]
-        internal static extern bool DwmIsCompositionEnabled();
+        public static extern bool DwmIsCompositionEnabled();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
     }
 
     public static class UnsafeNativeMethods
