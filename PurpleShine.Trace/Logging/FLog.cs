@@ -39,8 +39,6 @@ namespace PurpleShine.Trace.Logging
         }
         #endregion
 
-        private const int keepFileDay = 3;  // 保留log記錄天數
-
         private readonly string _filePath = Environment.CurrentDirectory + @"/Logs";  // Log
         private readonly string _xmlPath = Environment.CurrentDirectory + @"/log4netconfig.xml";  // XML
         private readonly ConcurrentDictionary<string, ILog> _logs = new ConcurrentDictionary<string, ILog>();
@@ -48,6 +46,11 @@ namespace PurpleShine.Trace.Logging
         private int _clearDelay = 3600000;
 
         public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        /// 保留log記錄天數
+        /// </summary>
+        public int KeepFileDay { get; set; } = 3; 
 
         /// <summary>
         /// 檢查清除間隔
@@ -103,7 +106,7 @@ namespace PurpleShine.Trace.Logging
 
             Timer_Elapsed(null, null);
             _timer = new System.Timers.Timer(ClearDelay);
-            _timer.Elapsed += Timer_Elapsed; ;
+            _timer.Elapsed += Timer_Elapsed;
             _timer.Start();
         }
 
@@ -114,7 +117,7 @@ namespace PurpleShine.Trace.Logging
             {
                 var filt = from file in Directory.GetFiles(_filePath, "*.*", SearchOption.AllDirectories)
                            let fileInfo = new FileInfo(file)
-                           where fileInfo.LastAccessTime < DateTime.Now.AddDays(-keepFileDay) || fileInfo.CreationTime < DateTime.Now.AddDays(-keepFileDay)
+                           where fileInfo.LastAccessTime < DateTime.Now.AddDays(-KeepFileDay) || fileInfo.CreationTime < DateTime.Now.AddDays(-keepFileDay)
                            select fileInfo;
 
                 if (filt.Any())
