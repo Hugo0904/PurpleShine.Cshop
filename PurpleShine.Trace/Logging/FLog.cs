@@ -39,31 +39,33 @@ namespace PurpleShine.Trace.Logging
         }
         #endregion
 
-        private readonly string _filePath = Environment.CurrentDirectory + @"/Logs";  // Log
-        private readonly string _xmlPath = Environment.CurrentDirectory + @"/log4netconfig.xml";  // XML
-        private readonly ConcurrentDictionary<string, ILog> _logs = new ConcurrentDictionary<string, ILog>();
-        private readonly System.Timers.Timer _timer;
-        private int _clearDelay = 3600000;
-
-        public bool IsDisposed { get; private set; }
-
         /// <summary>
         /// 保留log記錄天數
         /// </summary>
-        public int KeepFileDay { get; set; } = 3; 
+        public static int KeepFileDay { get; set; } = 3;
 
         /// <summary>
         /// 檢查清除間隔
         /// </summary>
-        public int ClearDelay
+        public static int ClearDelay
         {
             get => _clearDelay;
             set
             {
                 _clearDelay = value;
-                _timer.Interval = _clearDelay;
+                Instance._timer.Interval = _clearDelay;
             }
         }
+
+        private static int _clearDelay = 3600000;
+
+        private readonly string _filePath = Environment.CurrentDirectory + @"/Logs";  // Log
+        private readonly string _xmlPath = Environment.CurrentDirectory + @"/log4netconfig.xml";  // XML
+        private readonly ConcurrentDictionary<string, ILog> _logs = new ConcurrentDictionary<string, ILog>();
+        private readonly System.Timers.Timer _timer;
+
+
+        public bool IsDisposed { get; private set; }
 
         /// <summary>
         /// 輸出至Console的級別, null = cancel
@@ -117,7 +119,7 @@ namespace PurpleShine.Trace.Logging
             {
                 var filt = from file in Directory.GetFiles(_filePath, "*.*", SearchOption.AllDirectories)
                            let fileInfo = new FileInfo(file)
-                           where fileInfo.LastAccessTime < DateTime.Now.AddDays(-KeepFileDay) || fileInfo.CreationTime < DateTime.Now.AddDays(-keepFileDay)
+                           where fileInfo.LastAccessTime < DateTime.Now.AddDays(-KeepFileDay) || fileInfo.CreationTime < DateTime.Now.AddDays(-KeepFileDay)
                            select fileInfo;
 
                 if (filt.Any())
