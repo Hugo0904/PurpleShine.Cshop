@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -564,5 +564,110 @@ namespace PurpleShine.Core.Helpers
             return para;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// AES
+    /// </summary>
+    public static class AES
+    {
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="iv"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static string EncryptAES256(string key, string iv, string source)
+        {
+            var sourceBytes = AddPKCS7Padding(Encoding.UTF8.GetBytes(source), 32);
+            var aes = new RijndaelManaged
+            {
+                Key = Encoding.UTF8.GetBytes(key),
+                IV = Encoding.UTF8.GetBytes(iv),
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.None
+            };
+
+            ICryptoTransform transform = aes.CreateEncryptor();
+
+            return ByteArrayToHex(transform.TransformFinalBlock(sourceBytes, 0,sourceBytes.Length)).ToLower();
+        }
+
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="iv"></param>
+        /// <param name="encryptData"></param>
+        /// <returns></returns>
+        public static string DecryptAES256(string key, string iv, string encryptData)
+        {
+            var encryptBytes =HexStringToByteArray(encryptData.ToUpper());
+            var aes = new RijndaelManaged
+            {
+                Key = Encoding.UTF8.GetBytes(key),
+                IV = Encoding.UTF8.GetBytes(iv),
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.None
+            };
+
+            ICryptoTransform transform = aes.CreateDecryptor();
+
+            return Encoding.UTF8.GetString(RemovePKCS7Padding(transform.TransformFinalBlock(encryptBytes, 0, encryptBytes.Length)));
+        }
+
+        private static byte[] AddPKCS7Padding(byte[] data, int iBlockSize)
+        {
+            var dataLength = data.Length;
+            var cPadding = (byte)(iBlockSize - (dataLength % iBlockSize));
+            var output = new byte[dataLength + cPadding]; Buffer.BlockCopy(data, 0, output, 0, dataLength);
+
+            for (var i = dataLength; i < output.Length; i++)
+            {
+                output[i] = cPadding;
+            }
+
+            return output;
+        }
+
+        private static byte[] RemovePKCS7Padding(byte[] data)
+        {
+            var dataLength = data[data.Length - 1];
+            var output = new byte[data.Length - dataLength];
+            Buffer.BlockCopy(data, 0, output, 0, output.Length);
+
+            return output;
+        }
+
+        private static string ByteArrayToHex(byte[] barray)
+        {
+            var c = new char[barray.Length * 2];
+
+            byte b;
+            for (int i = 0; i < barray.Length; ++i)
+            {
+                b = ((byte)(barray[i] >> 4));
+                c[i * 2] = (char)(b > 9 ? b + 0x37 : b + 0x30);
+                b = ((byte)(barray[i] & 0xF));
+                c[i * 2 + 1] = (char)(b > 9 ? b + 0x37 : b + 0x30);
+            }
+
+            return new string(c);
+        }
+
+        private static byte[] HexStringToByteArray(string hexString)
+        {
+            var hexStringLength = hexString.Length;
+            var b = new byte[hexStringLength / 2];
+
+            for (int i = 0; i < hexStringLength; i += 2)
+            {
+                int topChar = (hexString[i] > 0x40 ? hexString[i] - 0x37 : hexString[i] - 0x30) << 4;
+                int bottomChar = hexString[i + 1] > 0x40 ? hexString[i + 1] - 0x37 : hexString[i + 1] - 0x30; b[i / 2] = Convert.ToByte(topChar + bottomChar);
+            }
+
+            return b;
+        }
     }
 }
