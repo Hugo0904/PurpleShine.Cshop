@@ -135,6 +135,47 @@ namespace PurpleShine.Net.Http
         /// <param name="content"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
+        public static async Task<HttpResponse<string>> SendPostAsync(this HttpClient client, string url, HttpContent content, int timeout = Timeout.Infinite, Action<HttpContent> OnRequestContent = null, Action<HttpResponseMessage> OnResponse = null)
+        {
+            using (var cts = new CancellationTokenSource())
+            {
+                if (timeout != Timeout.Infinite)
+                    cts.CancelAfter(TimeSpan.FromSeconds(timeout));
+
+                OnRequestContent?.Invoke(content);
+
+                using (HttpResponseMessage response = await client.PostAsync(url, content, cts.Token))
+                {
+                    OnResponse?.Invoke(response);
+
+                    var httpResponse = new HttpResponse<string>
+                    {
+                        Response = response,
+                        IsSuccess = response.IsSuccessStatusCode
+                    };
+
+                    if (response.Content != null)
+                    {
+                        ;
+                        using (var responseContent = response.Content)
+                        {
+                            httpResponse.Result = await responseContent.ReadAsStringAsync();
+                        }
+                    }
+
+                    return httpResponse;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Post
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="content"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
         public static async Task<HttpResponse<T>> SendPostAsync<T>(this HttpClient client, string url, HttpContent content, int timeout = Timeout.Infinite, Action<HttpContent> OnRequestContent = null, Action<HttpResponseMessage> OnResponse = null)
         {
             using (var cts = new CancellationTokenSource())
