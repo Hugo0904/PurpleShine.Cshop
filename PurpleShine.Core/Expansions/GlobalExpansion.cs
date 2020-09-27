@@ -39,7 +39,7 @@ namespace PurpleShine.Core.Expansions
         public static TValue GetAttrValue<TAttribute, TValue>(this MemberInfo info, Func<TAttribute, TValue> valueSelector) where TAttribute : Attribute
         {
             var att = info.GetCustomAttribute(typeof(TAttribute), true) as TAttribute;
-            return att.IsNonNull() ? valueSelector(att) : default(TValue);
+            return att.IsNonNull() ? valueSelector(att) : default;
         }
 
         /// <summary>
@@ -62,6 +62,9 @@ namespace PurpleShine.Core.Expansions
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ObjectExpansion
     {
         /// <summary>
@@ -71,7 +74,7 @@ namespace PurpleShine.Core.Expansions
         /// <returns></returns>
         public static T GetObject<T>(this Type t, params object[] args)
         {
-            return (T)Activator.CreateInstance(typeof(T), args);
+            return (T)Activator.CreateInstance(t, args);
         }
 
         /// <summary>
@@ -166,7 +169,7 @@ namespace PurpleShine.Core.Expansions
         /// <param name="this"></param>
         /// <param name="beMerge"></param>
         /// <returns></returns>
-        private static dynamic Merge(this object @this, object beMerge)
+        public static dynamic Merge(this object @this, object beMerge)
         {
             IDictionary<string, object> result = new ExpandoObject();
 
@@ -186,8 +189,16 @@ namespace PurpleShine.Core.Expansions
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class StringExpansion
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
         public static string UcFirst(this string @this)
         {
             switch (@this)
@@ -203,7 +214,7 @@ namespace PurpleShine.Core.Expansions
         /// 加減並回傳成字串
         /// </summary>
         /// <param name="this"></param>
-        /// <param name="number"></param>
+        /// <param name="compute"></param>
         /// <returns></returns>
         public static string ComputeSNumber(this string @this, Func<long, long> compute)
         {
@@ -233,16 +244,32 @@ namespace PurpleShine.Core.Expansions
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public static class TimeExpansion
     {
         /// <summary>
         /// 將時間轉成UnixTimeStamp
         /// </summary>
         /// <param name="this">時間Object</param>
+        /// <param name="kind">類型</param>
         /// <returns></returns>
-        public static long ToUnixTimeStamp(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
+        public static long ToUtcUnixTimeStamp(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, kind);
+            return Convert.ToInt64((@this - epoch).TotalSeconds);
+        }
+
+        /// <summary>
+        /// 將時間轉成UnixTimeStamp
+        /// </summary>
+        /// <param name="this">時間Object</param>
+        /// <param name="kind">類型</param>
+        /// <returns></returns>
+        public static long ToLocalUnixTimeStamp(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
+        {
+            var epoch = new DateTime(1970, 1, 1, 8, 0, 0, kind);
             return Convert.ToInt64((@this - epoch).TotalSeconds);
         }
 
@@ -250,10 +277,23 @@ namespace PurpleShine.Core.Expansions
         /// 將時間轉成毫秒
         /// </summary>
         /// <param name="this">時間Object</param>
+        /// <param name="kind">類型</param>
         /// <returns></returns>
-        public static long ToLongTime(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
+        public static long ToUtcLongTime(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, kind);
+            return Convert.ToInt64((@this - epoch).TotalMilliseconds);
+        }
+
+        /// <summary>
+        /// 將時間轉成毫秒
+        /// </summary>
+        /// <param name="this">時間Object</param>
+        /// <param name="kind">類型</param>
+        /// <returns></returns>
+        public static long ToLocalLongTime(this DateTime @this, DateTimeKind kind = DateTimeKind.Unspecified)
+        {
+            var epoch = new DateTime(1970, 1, 1, 8, 0, 0, kind);
             return Convert.ToInt64((@this - epoch).TotalMilliseconds);
         }
 
@@ -263,9 +303,20 @@ namespace PurpleShine.Core.Expansions
         /// <param name="this"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static double GetIntervalsTime(this long @this, DateTimeKind type = DateTimeKind.Unspecified)
+        public static double GetUtcIntervalsTime(this long @this, DateTimeKind type = DateTimeKind.Unspecified)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, type).AddMilliseconds(@this).GetIntervalsTime(type);
+        }
+
+        /// <summary>
+        /// 取得該時間與目前時間的差距
+        /// </summary>
+        /// <param name="this"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static double GetLocalIntervalsTime(this long @this, DateTimeKind type = DateTimeKind.Unspecified)
+        {
+            return new DateTime(1970, 1, 1, 8, 0, 0, type).AddMilliseconds(@this).GetIntervalsTime(type);
         }
 
         /// <summary>
@@ -295,8 +346,38 @@ namespace PurpleShine.Core.Expansions
         /// 將毫秒轉成時間
         /// </summary>
         /// <param name="this">時間Object</param>
+        /// <param name="type">轉換類型</param>
         /// <returns></returns>
-        public static DateTime ToLocalTime(this long @this, string type = "")
+        public static DateTime ToLocalTime(this long @this, string type = null)
+        {
+            var epoch = new DateTime(1970, 1, 1, 8, 0, 0, DateTimeKind.Local);
+
+            DateTime dt;
+            switch (type)
+            {
+                case "second":
+                    dt = epoch.AddSeconds(@this);
+                    break;
+                case "hour":
+                    dt = epoch.AddHours(@this);
+                    break;
+                case "day":
+                    dt = epoch.AddDays(@this);
+                    break;
+                default:
+                    dt = epoch.AddMilliseconds(@this);
+                    break;
+            }
+            return dt.ToLocalTime();
+        }
+
+        /// <summary>
+        /// 將毫秒轉成時間
+        /// </summary>
+        /// <param name="this">時間Object</param>
+        /// <param name="type">轉換類型</param>
+        /// <returns></returns>
+        public static DateTime ToUtcTime(this long @this, string type = "")
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
