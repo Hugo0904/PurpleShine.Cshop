@@ -164,7 +164,6 @@ namespace PurpleShine.Net.Http
 
                     if (response.Content != null)
                     {
-                        ;
                         using (var responseContent = response.Content)
                         {
                             httpResponse.Result = await responseContent.ReadAsStringAsync();
