@@ -386,6 +386,90 @@ namespace PurpleShine.Net.Http
         /// </summary>
         /// <param name="client"></param>
         /// <param name="url"></param>
+        /// <param name="content"></param>
+        /// <param name="timeout"></param>
+        /// <param name="OnRequestContent"></param>
+        /// <param name="OnResponse"></param>
+        /// <returns></returns>
+        public static async Task<HttpResponse<string>> SendPutAsync(this HttpClient client, string url, HttpContent content, int timeout = Timeout.Infinite, Action<HttpContent> OnRequestContent = null, Action<HttpResponseMessage> OnResponse = null)
+        {
+            using (var cts = new CancellationTokenSource())
+            {
+                if (timeout != Timeout.Infinite)
+                    cts.CancelAfter(TimeSpan.FromSeconds(timeout));
+
+                OnRequestContent?.Invoke(content);
+
+                using (HttpResponseMessage response = await client.PutAsync(url, content, cts.Token))
+                {
+                    OnResponse?.Invoke(response);
+
+                    var httpResponse = new HttpResponse<string>
+                    {
+                        Response = response,
+                        IsSuccess = response.IsSuccessStatusCode
+                    };
+
+                    if (response.Content != null)
+                    {
+                        using (var responseContent = response.Content)
+                        {
+                            httpResponse.Result = await responseContent.ReadAsStringAsync();
+                        }
+                    }
+
+                    return httpResponse;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Put
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="content"></param>
+        /// <param name="timeout"></param>
+        /// <param name="OnRequestContent"></param>
+        /// <param name="OnResponse"></param>
+        /// <returns></returns>
+        public static async Task<HttpResponse<T>> SendPutAsync<T>(this HttpClient client, string url, HttpContent content, int timeout = Timeout.Infinite, Action<HttpContent> OnRequestContent = null, Action<HttpResponseMessage> OnResponse = null)
+        {
+            using (var cts = new CancellationTokenSource())
+            {
+                if (timeout != Timeout.Infinite)
+                    cts.CancelAfter(TimeSpan.FromSeconds(timeout));
+
+                OnRequestContent?.Invoke(content);
+
+                using (HttpResponseMessage response = await client.PutAsync(url, content, cts.Token))
+                {
+                    OnResponse?.Invoke(response);
+
+                    var httpResponse = new HttpResponse<T>
+                    {
+                        Response = response,
+                        IsSuccess = response.IsSuccessStatusCode
+                    };
+
+                    if (httpResponse.IsSuccess)
+                    {
+                        using (var responseContent = response.Content)
+                        {
+                            httpResponse.Result = await responseContent.ReadAsAsync<T>();
+                        }
+                    }
+
+                    return httpResponse;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Put
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
         /// <param name="data"></param>
         /// <param name="timeout"></param>
         /// <param name="OnContent"></param>
